@@ -1,38 +1,18 @@
-# create-svelte
+# Motion-Induced Blindness and Motion Aftereffect Research
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Overview
 
-## Creating a project
+This repository a programme for exploring Motion-Induced Blindness (MIB) and Motion Aftereffect (MAE). MIB refers to the phenomenon where visual stimuli disappear when there's a moving pattern present. MAE, on the other hand, is the perception of motion in the opposite direction after prolonged exposure to a moving stimulus.
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Code
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+The repository includes code used for running experiments related to MIB and MAE. This includes:
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+- Experiment setup and protocols for studying MIB disappearance with moving patterns.
+- Protocols for inducing MAE and analyzing its effects on visual perception.
 
-## Developing
+## Members
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+1. Luis Galvez
+2. Lizandro Ruiz
+3. José Núñez

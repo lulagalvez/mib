@@ -1,4 +1,4 @@
-# Motion-Induced Blindness and Motion Aftereffect Research
+# Motion-Induced Blindness and Motion Aftereffect
 
 ## Overview
 

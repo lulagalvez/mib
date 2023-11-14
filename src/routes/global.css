@@ -1,0 +1,47 @@
+/* global.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: black;
+    color: white;
+}
+
+.content-container {
+    max-width: 800px;
+    /* Adjust the maximum width as needed */
+    margin: 0 auto;
+    /* Center the content container on the page */
+    padding: 20px;
+    /* Add some padding for spacing */
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.triangle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    /* Adjust the margin as needed */
+}
+
+.circle {
+    width: 200px;
+    /* Adjust the size of the circles as needed */
+    height: 200px;
+    /* Adjust the size of the circles as needed */
+    background-color: gold;
+    border-radius: 50%;
+    margin: 0 10px;
+    cursor: pointer;
+    /* Adjust the margin between circles as needed */
+}
+

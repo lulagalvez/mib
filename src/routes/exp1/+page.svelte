@@ -4,36 +4,58 @@
     import { tweened } from "svelte/motion";
     import { cubicOut } from "svelte/easing";
     import { browser } from "$app/environment";
+    import { goto } from "$app/navigation";
 
     const rotation = tweened(0, {
         duration: 3000,
     });
 
     let displayImage = true;
+
+    let currentCycle = 1; // Inicia en el primer ciclo
+    let showReturnButton = false; // Controla la visibilidad del botón de retorno
+
     let keyDownTimes: { [key: string]: number } = { 'ArrowDown': 0, 'ArrowLeft': 0, 'ArrowRight': 0 };
     let keyPressStart: { [key: string]: number | null } = {};
 
     onMount(() => {
-        const interval = setInterval(() => {
-            rotation.update(n => n + 360);
-        }, 3000);
+        const startCycle = () => {
+            const interval = setInterval(() => {
+                rotation.update(n => n + 360);
+            }, 3000);
 
-        setTimeout(() => {
-            clearInterval(interval);
-            displayImage = false;
-            if (browser) {
-                window.addEventListener('keydown', handleKeyDown);
-                window.addEventListener('keyup', handleKeyUp);
-            }
-        }, 30000);
+            setTimeout(() => {
+                clearInterval(interval);
+                displayImage = false;
 
-        return () => {
-            clearInterval(interval);
-            if (browser) {
-                window.removeEventListener('keydown', handleKeyDown);
-                window.removeEventListener('keyup', handleKeyUp);
-            }
+                // Inicia escucha de eventos de teclado solo si es necesario
+                if (browser && currentCycle <= 3) {
+                    window.addEventListener('keydown', handleKeyDown);
+                    window.addEventListener('keyup', handleKeyUp);
+                }
+
+                // Espera 30 segundos más para cambiar de imagen o terminar el ciclo
+                setTimeout(() => {
+                    if (currentCycle < 3) {
+                        currentCycle++;
+                        displayImage = true;
+                        startCycle();
+                    } else {
+                        showReturnButton = true;
+                    }
+                }, 30000);
+            }, 30000);
+
+            return () => {
+                clearInterval(interval);
+                if (browser) {
+                    window.removeEventListener('keydown', handleKeyDown);
+                    window.removeEventListener('keyup', handleKeyUp);
+                }
+            };
         };
+
+        startCycle();
     });
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -62,6 +84,10 @@
         link.click();
         document.body.removeChild(link);
     }
+
+    function goToMainMenu() {
+        goto('/'); // Reemplaza '/' con la ruta del menú principal
+    }
 </script>
 
 <!-- Resto del HTML y estilos -->
@@ -74,6 +100,10 @@
     {:else}
         <!-- svelte-ignore a11y-missing-attribute -->
         <img src="/images/exp1_test.png" class="image-static">
+    {/if}
+
+    {#if showReturnButton}
+        <button on:click={goToMainMenu}>Return to Main Menu</button>
     {/if}
 </div>
 

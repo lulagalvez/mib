@@ -15,6 +15,7 @@
     let showReturnButton = false; // Controla la visibilidad del botón de retorno
     interface CycleData {
         cycle: number;
+        movementType: string; // Nueva propiedad
         ArrowDown: number;
         ArrowLeft: number;
         ArrowRight: number;
@@ -92,8 +93,22 @@
     function saveAndExportCycleData() {
         const total = parseFloat(Object.values(keyDownTimes).reduce((a, b) => a + b, 0).toFixed(3));
         const dateTime = new Date().toISOString();
+
+        let movementType = '';
+        switch (currentMovement) {
+            case 1:
+                movementType = 'Horario';
+                break;
+            case -1:
+                movementType = 'Antihorario';
+                break;
+            default:
+                movementType = 'Sin Girar';
+        }
+
         cycleTimes.push({
             cycle: currentCycle,
+            movementType, // Agregado aquí
             ArrowDown: keyDownTimes['ArrowDown'],
             ArrowLeft: keyDownTimes['ArrowLeft'],
             ArrowRight: keyDownTimes['ArrowRight'],
@@ -101,11 +116,11 @@
             dateTime
         });
 
-        // Llama a exportToCSV() solo al final del tercer ciclo
         if (currentCycle === 3) {
             exportToCSV();
         }
     }
+
 
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -124,12 +139,12 @@
 
 
     function exportToCSV() {
-        const headers = 'Ciclo,Izquierda,Abajo,Derecha,Total,Fecha_hora\n';
-        const csvContent = `data:text/csv;charset=utf-8,${headers}${cycleTimes
-            .map(({ cycle, ArrowLeft, ArrowDown, ArrowRight, total, dateTime }) =>
-                `${cycle},${ArrowLeft},${ArrowDown},${ArrowRight},${total},${dateTime}`
-            )
-            .join("\n")}`;
+    const headers = 'Ciclo,Tipo de Movimiento,Izquierda,Abajo,Derecha,Total,Fecha_hora\n';
+    const csvContent = `data:text/csv;charset=utf-8,${headers}${cycleTimes
+        .map(({ cycle, movementType, ArrowLeft, ArrowDown, ArrowRight, total, dateTime }) =>
+            `${cycle},${movementType},${ArrowLeft},${ArrowDown},${ArrowRight},${total},${dateTime}`
+        )
+        .join("\n")}`;
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);

@@ -1,29 +1,71 @@
-<script>
+<script lang="ts">
     import "../global.css"
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import { tweened } from "svelte/motion";
     import { cubicOut } from "svelte/easing";
+    import { browser } from "$app/environment";
 
     const rotation = tweened(0, {
-        duration: 3000, // Adjust duration as needed
+        duration: 3000,
     });
 
     let displayImage = true;
+    let keyDownTimes: { [key: string]: number } = { 'ArrowDown': 0, 'ArrowLeft': 0, 'ArrowRight': 0 };
+    let keyPressStart: { [key: string]: number | null } = {};
 
     onMount(() => {
-        // Automatically rotate by 360 degrees every 3 seconds (3000 milliseconds) for 10 iterations
         const interval = setInterval(() => {
-            rotation.set($rotation + 360);
+            rotation.update(n => n + 360);
         }, 3000);
 
         setTimeout(() => {
             clearInterval(interval);
-            displayImage = false; // After 30 seconds, stop animation and display something else
-        }, 30000); // Stop after 30 seconds
+            displayImage = false;
+            if (browser) {
+                window.addEventListener('keydown', handleKeyDown);
+                window.addEventListener('keyup', handleKeyUp);
+            }
+        }, 30000);
 
-        return () => clearInterval(interval);
+        return () => {
+            clearInterval(interval);
+            if (browser) {
+                window.removeEventListener('keydown', handleKeyDown);
+                window.removeEventListener('keyup', handleKeyUp);
+            }
+        };
     });
+
+    function handleKeyDown(event: KeyboardEvent) {
+        if (!displayImage && ['ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+            keyPressStart[event.key] = keyPressStart[event.key] || performance.now();
+        }
+    }
+
+    function handleKeyUp(event: KeyboardEvent) {
+        if (!displayImage && keyPressStart[event.key]) {
+            keyDownTimes[event.key] += performance.now() - keyPressStart[event.key]!;
+            keyPressStart[event.key] = null;
+            exportToCSV();
+        }
+    }
+
+    function exportToCSV() {
+        const csvContent = `data:text/csv;charset=utf-8,${Object.entries(keyDownTimes)
+            .map(([key, duration]) => `${key},${duration}`)
+            .join("\n")}`;
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "key_press_times.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 </script>
+
+<!-- Resto del HTML y estilos -->
+
 
 <div class="center">
     {#if displayImage}
@@ -48,7 +90,7 @@
         height: 900px; /* Adjust size as needed */
         object-fit: cover; /* Maintain aspect ratio of the image */
         transform-origin: center;
-        transform: rotate(45deg);
+        transform: rotate(90deg);
     }
 
     .image-static {

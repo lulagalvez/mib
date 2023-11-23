@@ -25,12 +25,32 @@
     let keyDownTimes: { [key: string]: number } = { 'ArrowDown': 0, 'ArrowLeft': 0, 'ArrowRight': 0 };
     let keyPressStart: { [key: string]: number | null } = {};
 
+
+    const movements = [0, 1, -1];
+
+    // Función para mezclar el arreglo
+    function shuffle(array: number[]): number[] {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Mezclar los movimientos
+    const shuffledMovements = shuffle([...movements]);
+
+    let currentMovement = 0; // Variable para almacenar el tipo de movimiento actual
     onMount(() => {
         const startCycle = () => {
+            // Actualiza el tipo de movimiento al inicio de cada ciclo
+            currentMovement = shuffledMovements[currentCycle - 1];
+            // Restablece las variables de tiempo
             keyDownTimes = { 'ArrowDown': 0, 'ArrowLeft': 0, 'ArrowRight': 0 };
             keyPressStart = {};
+            // Intervalo para rotación
             const interval = setInterval(() => {
-                rotation.update(n => n + 360);
+                rotation.update(n => n + (360 * currentMovement));
             }, 3000);
 
             setTimeout(() => {

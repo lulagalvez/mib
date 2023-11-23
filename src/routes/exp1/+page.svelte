@@ -11,15 +11,24 @@
     });
 
     let displayImage = true;
-
     let currentCycle = 1; // Inicia en el primer ciclo
     let showReturnButton = false; // Controla la visibilidad del botón de retorno
-
+    interface CycleData {
+        cycle: number;
+        ArrowDown: number;
+        ArrowLeft: number;
+        ArrowRight: number;
+        total: number;
+        dateTime: string;
+    }
+    let cycleTimes: CycleData[] = [];
     let keyDownTimes: { [key: string]: number } = { 'ArrowDown': 0, 'ArrowLeft': 0, 'ArrowRight': 0 };
     let keyPressStart: { [key: string]: number | null } = {};
 
     onMount(() => {
         const startCycle = () => {
+            keyDownTimes = { 'ArrowDown': 0, 'ArrowLeft': 0, 'ArrowRight': 0 };
+            keyPressStart = {};
             const interval = setInterval(() => {
                 rotation.update(n => n + 360);
             }, 3000);
@@ -37,10 +46,12 @@
                 // Espera 30 segundos más para cambiar de imagen o terminar el ciclo
                 setTimeout(() => {
                     if (currentCycle < 3) {
+                        saveAndExportCycleData();
                         currentCycle++;
                         displayImage = true;
                         startCycle();
                     } else {
+                        saveAndExportCycleData();
                         showReturnButton = true;
                     }
                 }, 30000);
@@ -58,6 +69,25 @@
         startCycle();
     });
 
+    function saveAndExportCycleData() {
+        const total = parseFloat(Object.values(keyDownTimes).reduce((a, b) => a + b, 0).toFixed(3));
+        const dateTime = new Date().toISOString();
+        cycleTimes.push({
+            cycle: currentCycle,
+            ArrowDown: keyDownTimes['ArrowDown'],
+            ArrowLeft: keyDownTimes['ArrowLeft'],
+            ArrowRight: keyDownTimes['ArrowRight'],
+            total,
+            dateTime
+        });
+
+        // Llama a exportToCSV() solo al final del tercer ciclo
+        if (currentCycle === 3) {
+            exportToCSV();
+        }
+    }
+
+
     function handleKeyDown(event: KeyboardEvent) {
         if (!displayImage && ['ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
             keyPressStart[event.key] = keyPressStart[event.key] || performance.now();
@@ -66,15 +96,19 @@
 
     function handleKeyUp(event: KeyboardEvent) {
         if (!displayImage && keyPressStart[event.key]) {
-            keyDownTimes[event.key] += performance.now() - keyPressStart[event.key]!;
+            // Redondea a 3 decimales y convierte a número
+            keyDownTimes[event.key] += parseFloat(((performance.now() - keyPressStart[event.key]!) / 1000).toFixed(3));
             keyPressStart[event.key] = null;
-            exportToCSV();
         }
     }
 
+
     function exportToCSV() {
-        const csvContent = `data:text/csv;charset=utf-8,${Object.entries(keyDownTimes)
-            .map(([key, duration]) => `${key},${duration}`)
+        const headers = 'Ciclo,Izquierda,Abajo,Derecha,Total,Fecha_hora\n';
+        const csvContent = `data:text/csv;charset=utf-8,${headers}${cycleTimes
+            .map(({ cycle, ArrowLeft, ArrowDown, ArrowRight, total, dateTime }) =>
+                `${cycle},${ArrowLeft},${ArrowDown},${ArrowRight},${total},${dateTime}`
+            )
             .join("\n")}`;
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");

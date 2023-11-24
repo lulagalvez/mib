@@ -1,30 +1,83 @@
-/* global.css */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Ensures it's above other content */
+/* Modal styling */
+dialog {
+  max-width: 100em;
+  border-radius: 0.2em;
+  border: 0.1em solid white; /* Adding a white border around the modal */
+  padding: 0;
+  color: white; /* Setting text color to white */
+  background-color: black; /* Setting background color to black */
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+dialog > div {
+  padding: 1em;
+}
+
+dialog[open] {
+  animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0.95);
   }
-  
-  .modal {
-    background-color: black;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 80%;
-    max-height: 80%;
-    overflow: auto;
+
+  to {
+    transform: scale(1);
   }
-  
-  .modal-content {
-    text-align: center;
+}
+
+dialog[open]::backdrop {
+  animation: fade 0.2s ease-out;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
   }
-  
-  /* Other styles for buttons, text, etc. */
-  
+
+  to {
+    opacity: 1;
+  }
+}
+
+button {
+  display: block;
+}
+
+.image-container {
+  display: flex; /* Using flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 200px; /* Set a height for the container (adjust as needed) */
+}
+
+.static-image {
+  max-width: 100%; /* Adjust the image width as needed */
+  max-height: 100%; /* Adjust the image height as needed */
+  /* Additional styles for the image */
+}
+
+.container {
+  display: flex;
+}
+
+.column {
+  flex: 1;
+  padding: 50px;
+}
+
+.arrow-image {
+  width: 600px; /* Set your desired width */
+  height: auto; /* Maintain aspect ratio */
+  /* or use height: 400px; to set a specific height */
+}
+
+.dots-image {
+  width: 400px; /* Set your desired width */
+  height: auto; /* Maintain aspect ratio */
+  /* or use height: 400px; to set a specific height */
+}

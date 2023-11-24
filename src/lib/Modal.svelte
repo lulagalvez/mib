@@ -43,7 +43,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<dialog bind:this={dialog} on:close >
+<dialog bind:this={dialog} on:close>
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation></div>
 	<slot name="header" />
@@ -147,9 +147,9 @@
 		<div class="column">
 			<!-- svelte-ignore a11y-missing-attribute -->
 			<iframe
-				src="https://giphy.com/embed/zDrZUSgLnpay7kiazh"
-				width="480"
-				height="270"
+				src="https://giphy.com/embed/sBYDySrctteHM3HFQe"
+				width="720"
+				height="405"
 				frameBorder="0"
 				class="giphy-embed"
 				allowFullScreen
@@ -157,14 +157,13 @@
 		</div>
 		<div class="column">
 			<!-- svelte-ignore a11y-missing-attribute -->
-			<iframe
-				src="https://giphy.com/embed/zDrZUSgLnpay7kiazh"
-				width="480"
-				height="270"
-				frameBorder="0"
-				class="giphy-embed"
-				allowFullScreen
-			></iframe>
+			<img
+				src="/images/example.png"
+				class="static-image"
+				width="550"
+				height="405"
+				alt="How to play"
+			/>
 		</div>
 	</div>
 
@@ -293,8 +292,8 @@
 	<h2>Consentimiento:</h2>
 	<p>
 		He leído y comprendido la información proporcionada anteriormente. Al
-		participar en este estudio, doy mi consentimiento voluntario para ser
-		parte de la investigación.
+		ingresar mi alias estoy participando en este estudio y doy mi
+		consentimiento voluntario para ser parte de la investigación.
 	</p>
 	<hr />
 	<div class="form-container">

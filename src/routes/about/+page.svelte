@@ -82,29 +82,28 @@
   </h1>
 
   <div class="container">
-    <div class="column">
-      <!-- svelte-ignore a11y-missing-attribute -->
-      <iframe
-        src="https://giphy.com/embed/zDrZUSgLnpay7kiazh"
-        width="480"
-        height="270"
-        frameBorder="0"
-        class="giphy-embed"
-        allowFullScreen
-      ></iframe>
-    </div>
-    <div class="column">
-      <!-- svelte-ignore a11y-missing-attribute -->
-      <iframe
-        src="https://giphy.com/embed/zDrZUSgLnpay7kiazh"
-        width="480"
-        height="270"
-        frameBorder="0"
-        class="giphy-embed"
-        allowFullScreen
-      ></iframe>
-    </div>
-  </div>
+		<div class="column">
+			<!-- svelte-ignore a11y-missing-attribute -->
+			<iframe
+				src="https://giphy.com/embed/sBYDySrctteHM3HFQe"
+				width="720"
+				height="405"
+				frameBorder="0"
+				class="giphy-embed"
+				allowFullScreen
+			></iframe>
+		</div>
+		<div class="column">
+			<!-- svelte-ignore a11y-missing-attribute -->
+			<img
+				src="/images/example.png"
+				class="static-image"
+				width="550"
+				height="405"
+				alt="How to play"
+			/>
+		</div>
+	</div>
 
   <h1>
     Durante el periodo de prueba estático deberás registrar la desaparición que

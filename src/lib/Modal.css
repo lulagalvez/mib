@@ -2,17 +2,20 @@
 dialog {
   max-width: 100em;
   border-radius: 0.2em;
-  border: 0.1em solid white; /* Adding a white border around the modal */
+  border: 0.1em solid white;
+  /* Adding a white border around the modal */
   padding: 0;
-  color: white; /* Setting text color to white */
-  background-color: black; /* Setting background color to black */
+  color: white;
+  /* Setting text color to white */
+  background-color: black;
+  /* Setting background color to black */
 }
 
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.3);
 }
 
-dialog > div {
+dialog>div {
   padding: 1em;
 }
 
@@ -49,15 +52,21 @@ button {
 }
 
 .image-container {
-  display: flex; /* Using flexbox */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 200px; /* Set a height for the container (adjust as needed) */
+  display: flex;
+  /* Using flexbox */
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  height: 200px;
+  /* Set a height for the container (adjust as needed) */
 }
 
 .static-image {
-  max-width: 100%; /* Adjust the image width as needed */
-  max-height: 100%; /* Adjust the image height as needed */
+  max-width: 100%;
+  /* Adjust the image width as needed */
+  max-height: 100%;
+  /* Adjust the image height as needed */
   /* Additional styles for the image */
 }
 
@@ -71,13 +80,76 @@ button {
 }
 
 .arrow-image {
-  width: 600px; /* Set your desired width */
-  height: auto; /* Maintain aspect ratio */
+  width: 600px;
+  /* Set your desired width */
+  height: auto;
+  /* Maintain aspect ratio */
   /* or use height: 400px; to set a specific height */
 }
 
 .dots-image {
-  width: 400px; /* Set your desired width */
-  height: auto; /* Maintain aspect ratio */
+  width: 400px;
+  /* Set your desired width */
+  height: auto;
+  /* Maintain aspect ratio */
   /* or use height: 400px; to set a specific height */
+}
+
+/* Style for the input field */
+input[type="text"] {
+  width: 50%;
+  /* Adjust the width as needed */
+  padding: 10px;
+  /* Adds space inside the input field */
+  margin: 10px 0;
+  /* Adds space around the input field */
+  font-size: 1.2em;
+  /* Increase the font size */
+  border: 2px solid #ccc;
+  /* Border for the input field */
+  border-radius: 5px;
+  /* Rounded corners */
+}
+
+/* Style for the OK button */
+button {
+  width: 50%;
+  /* Adjust the width as needed */
+  padding: 15px;
+  /* Adds space inside the button */
+  font-size: 1.2em;
+  /* Increase the font size */
+  color: white;
+  /* Text color */
+  background-color: black;
+  /* Background color */
+  border: none;
+  /* No border */
+  border-radius: 5px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Cursor changes to pointer on hover */
+  margin: 10px 0;
+  /* Adds space around the button */
+  border: 2px solid white;
+  /* White border */
+  border-radius: 5px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Cursor changes to pointer on hover */
+  margin: 10px 0;
+  /* Adds space around the button */
+}
+
+button:hover {
+  background-color: white;
+  /* Darker background color on hover */
+  color: black;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

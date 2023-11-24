@@ -1,6 +1,6 @@
 <script>
-// @ts-nocheck
-
+	// @ts-nocheck
+	import { onMount } from "svelte";
 	import "./global.css";
 	import Modal from "$lib/Modal.svelte";
 
@@ -10,20 +10,33 @@
 	 */
 	let button; // HTMLButtonElement
 	let showModal = true;
+	let alias;
+
+	onMount(() => {
+		alias = localStorage.getItem("alias"); // Retrieve alias from localStorage
+		if(alias) {
+			showModal = false;
+			console.log(alias)
+		}
+		console.log(showModal)
+	});
+
+	function handleCloseModal() {
+		showModal = false;
+        if (button) {
+            button.focus();
+        }
+	}
 </script>
 
 <div class="content-container">
-
 	<Modal
 		{showModal}
-		on:close={() => {
-			showModal = false;
-			button.focus();
-		}}
+		on:close={handleCloseModal}
 	/>
-		
 
-	<h1>MOTION AFTER EFFECT INDUCED BLINDNESS</h1>
+	<!-- svelte-ignore a11y-img-redundant-alt -->
+	<img src="/images/title.png" class="title-image" alt="Title" />
 
 	<div class="triangle-container">
 		<!-- svelte-ignore a11y-missing-content -->
@@ -35,6 +48,9 @@
 	</div>
 
 	<div>
-		last edited by <a href="https://github.com/lulagalvez">Lula</a>
+		<h3>
+			Creado por <a href="https://github.com/lulagalvez" target="_blank">Lula</a> y <a href="https://github.com/LizandroR" target="_blank">Lizandro</a>
+		</h3>
+		
 	</div>
 </div>

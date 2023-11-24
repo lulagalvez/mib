@@ -1,7 +1,7 @@
 <nav>
-	<a href="/">Home</a>
-	<a href="/about">About</a>
-	<a href="/settings">Settings</a>
+	<a href="/">Hogar</a>
+	<a href="/about">Acerca de</a>
+	<a href="/settings">Configuración</a>
 </nav>
 
 <slot></slot>

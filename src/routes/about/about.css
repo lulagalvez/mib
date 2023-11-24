@@ -1,0 +1,45 @@
+.image-container {
+    display: flex; /* Using flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 200px; /* Set a height for the container (adjust as needed) */
+  }
+  
+  .static-image {
+    max-width: 100%; /* Adjust the image width as needed */
+    max-height: 100%; /* Adjust the image height as needed */
+    /* Additional styles for the image */
+  }
+  
+  .container {
+    display: flex;
+  }
+  
+  .column {
+    flex: 1;
+    padding: 50px;
+  }
+  
+  .arrow-image {
+    width: 600px; /* Set your desired width */
+    height: auto; /* Maintain aspect ratio */
+    /* or use height: 400px; to set a specific height */
+  }
+  
+  .dots-image {
+    width: 400px; /* Set your desired width */
+    height: auto; /* Maintain aspect ratio */
+    /* or use height: 400px; to set a specific height */
+  }
+
+  .about-container {
+    /* Adjust the maximum width as needed */
+    margin: 0 auto;
+    /* Center the content container on the page */
+    padding: 20px;
+    /* Add some padding for spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }

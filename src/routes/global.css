@@ -1,6 +1,6 @@
 /* global.css */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Verdana", sans-serif;
     background-color: black;
     color: white;
 }
@@ -12,24 +12,35 @@ body {
     /* Center the content container on the page */
     padding: 20px;
     /* Add some padding for spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh; /* Full viewport height */
 }
 
 h1 {
     font-size: 2em;
     margin-bottom: 10px;
+    padding: 20px;
+}
+
+h2 {
+    padding: 20px;
 }
 
 p {
     font-size: 1.2em;
     line-height: 1.6;
-    margin-bottom: 20px;
+    padding: 20px;
 }
 
 .triangle-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     /* Adjust the margin as needed */
 }
 
@@ -40,8 +51,18 @@ p {
     /* Adjust the size of the circles as needed */
     background-color: gold;
     border-radius: 50%;
-    margin: 0 10px;
+    margin: 0 100px;
     cursor: pointer;
     /* Adjust the margin between circles as needed */
 }
+
+.title-image {
+    max-width: 1500px; /* Adjust this value as needed */
+    height: auto; /* Maintain aspect ratio */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+
 

@@ -10,11 +10,12 @@
         duration: 3000,
     });
 
+    let userAlias = ''; // Variable to store the alias
     let displayImage = true;
     let currentCycle = 1; // Inicia en el primer ciclo
     let showReturnButton = false; // Controla la visibilidad del botón de retorno
     interface CycleData {
-        cycle: number;
+        alias: string;
         movementType: string; // Nueva propiedad
         ArrowDown: number;
         ArrowLeft: number;
@@ -43,6 +44,8 @@
 
     let currentMovement = 0; // Variable para almacenar el tipo de movimiento actual
     onMount(() => {
+        userAlias = localStorage.getItem("alias") || 'Unknown';
+
         const startCycle = () => {
             // Actualiza el tipo de movimiento al inicio de cada ciclo
             currentMovement = shuffledMovements[currentCycle - 1];
@@ -107,7 +110,7 @@
         }
 
         cycleTimes.push({
-            cycle: currentCycle,
+            alias: userAlias,
             movementType, // Agregado aquí
             ArrowDown: keyDownTimes['ArrowDown'],
             ArrowLeft: keyDownTimes['ArrowLeft'],
@@ -139,10 +142,10 @@
 
 
     function exportToCSV() {
-    const headers = 'Ciclo,Tipo de Movimiento,Izquierda,Abajo,Derecha,Total,Fecha_hora\n';
+    const headers = 'Alias,Tipo de Movimiento,Izquierda,Abajo,Derecha,Total,Fecha_hora\n';
     const csvContent = `data:text/csv;charset=utf-8,${headers}${cycleTimes
-        .map(({ cycle, movementType, ArrowLeft, ArrowDown, ArrowRight, total, dateTime }) =>
-            `${cycle},${movementType},${ArrowLeft},${ArrowDown},${ArrowRight},${total},${dateTime}`
+        .map(({ alias, movementType, ArrowLeft, ArrowDown, ArrowRight, total, dateTime }) =>
+            `${alias},${movementType},${ArrowLeft},${ArrowDown},${ArrowRight},${total},${dateTime}`
         )
         .join("\n")}`;
         const encodedUri = encodeURI(csvContent);
@@ -172,7 +175,7 @@
     {/if}
 
     {#if showReturnButton}
-        <button on:click={goToMainMenu}>Return to Main Menu</button>
+        <button on:click={goToMainMenu}>Volver al menú principal</button>
     {/if}
 </div>
 
@@ -181,20 +184,20 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh; /* Set full viewport height */
+        height: 90vh; /* Set full viewport height */
     }
 
     .image {
-        width: 900px; /* Adjust size as needed */
-        height: 900px; /* Adjust size as needed */
+        width: 636px; /* Adjust size as needed */
+        height: 636px; /* Adjust size as needed */
         object-fit: cover; /* Maintain aspect ratio of the image */
         transform-origin: center;
         transform: rotate(90deg);
     }
 
     .image-static {
-        width: 900px; /* Adjust size as needed */
-        height: 900px; /* Adjust size as needed */
+        width: 636px; /* Adjust size as needed */
+        height: 636px; /* Adjust size as needed */
         object-fit: cover; /* Maintain aspect ratio of the image */
     }
 </style>

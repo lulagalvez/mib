@@ -140,7 +140,8 @@
 	<h1>
 		Primero te mostraremos un estimulo de adaptación por 30 segundos, donde
 		tu vista se acostumbrará al movimiento, luego te mostraremos un estimulo
-		de prueba estático.
+		de prueba estático. Te invitamos a que apretes F11 para ponerte en
+		pantalla completa y que acerces tu rostro al monitor.
 	</h1>
 
 	<div class="container">
@@ -242,13 +243,13 @@
 	<h2>Procedimiento:</h2>
 	<p>
 		Durante la participación en este estudio, se le pedirá que observe
-		estímulos visuales generados por computadora presentados en un monitor a
-		50cm de su rostro. Se le solicitará que fije la vista en estímulos de
-		adaptación rotativos o estáticos durante 30 segundos, seguidos de la
-		observación de patrones de prueba durante otros 30 segundos. Se le
-		pedirá que indique la desaparición de puntos objetivo presionando y
-		manteniendo presionada una combinación de tres teclas y soltando la
-		tecla cuando el punto objetivo vuelva a aparecer.
+		estímulos visuales generados por la computadora en su monitor. Se le
+		solicitará que fije la vista en estímulos de adaptación rotativos o
+		estáticos durante 30 segundos, seguidos de la observación de patrones de
+		prueba durante otros 30 segundos. Se le pedirá que indique la
+		desaparición de puntos objetivo presionando y manteniendo presionada una
+		combinación de tres teclas y soltando la tecla cuando el punto objetivo
+		vuelva a aparecer.
 	</p>
 
 	<h2>Confidencialidad:</h2>

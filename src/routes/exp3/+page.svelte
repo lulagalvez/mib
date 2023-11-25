@@ -10,6 +10,8 @@
         duration: 3000,
     });
 
+    let countdown = 3;
+    const intervalDuration = 30000;
     let userAlias = ""; // Variable to store the alias
     let displayImage = true;
     let currentCycle = 1; // Inicia en el primer ciclo
@@ -46,53 +48,59 @@
     // Mezclar los movimientos
     const shuffledMovements = shuffle([...movements]);
 
+    const startCycle = () => {
+        // Actualiza el tipo de movimiento al inicio de cada ciclo
+        currentMovement = shuffledMovements[currentCycle - 1];
+        // Restablece las variables de tiempo
+        keyDownTimes = { ArrowDown: 0, ArrowLeft: 0, ArrowRight: 0 };
+        keyPressStart = {};
+        // Intervalo para rotación
+        const interval = setInterval(() => {
+            rotation.update((n) => n + 360 * currentMovement);
+        }, 3000);
+
+        setTimeout(() => {
+            clearInterval(interval);
+            displayImage = false;
+
+            // Inicia escucha de eventos de teclado solo si es necesario
+            if (browser && currentCycle <= 3) {
+                window.addEventListener("keydown", handleKeyDown);
+                window.addEventListener("keyup", handleKeyUp);
+            }
+
+            // Espera 30 segundos más para cambiar de imagen o terminar el ciclo
+            setTimeout(() => {
+                if (currentCycle < 3) {
+                    saveAndExportCycleData();
+                    currentCycle++;
+                    displayImage = true;
+                    startCycle();
+                } else {
+                    saveAndExportCycleData();
+                    showReturnButton = true;
+                }
+            }, intervalDuration);
+        }, intervalDuration);
+
+        return () => {
+            clearInterval(interval);
+            if (browser) {
+                window.removeEventListener("keydown", handleKeyDown);
+                window.removeEventListener("keyup", handleKeyUp);
+            }
+        };
+    };
+
     let currentMovement = 0; // Variable para almacenar el tipo de movimiento actual
     onMount(() => {
+        const countdownInterval = setInterval(() => {
+            countdown -= 1;
+            if (countdown === 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
         userAlias = localStorage.getItem("alias") || "Unknown";
-
-        const startCycle = () => {
-            // Actualiza el tipo de movimiento al inicio de cada ciclo
-            currentMovement = shuffledMovements[currentCycle - 1];
-            // Restablece las variables de tiempo
-            keyDownTimes = { ArrowDown: 0, ArrowLeft: 0, ArrowRight: 0 };
-            keyPressStart = {};
-            // Intervalo para rotación
-            const interval = setInterval(() => {
-                rotation.update((n) => n + 360 * currentMovement);
-            }, 3000);
-
-            setTimeout(() => {
-                clearInterval(interval);
-                displayImage = false;
-
-                // Inicia escucha de eventos de teclado solo si es necesario
-                if (browser && currentCycle <= 3) {
-                    window.addEventListener("keydown", handleKeyDown);
-                    window.addEventListener("keyup", handleKeyUp);
-                }
-
-                // Espera 30 segundos más para cambiar de imagen o terminar el ciclo
-                setTimeout(() => {
-                    if (currentCycle < 3) {
-                        saveAndExportCycleData();
-                        currentCycle++;
-                        displayImage = true;
-                        startCycle();
-                    } else {
-                        saveAndExportCycleData();
-                        showReturnButton = true;
-                    }
-                }, 30000);
-            }, 30000);
-
-            return () => {
-                clearInterval(interval);
-                if (browser) {
-                    window.removeEventListener("keydown", handleKeyDown);
-                    window.removeEventListener("keyup", handleKeyUp);
-                }
-            };
-        };
 
         startCycle();
     });
@@ -144,7 +152,7 @@
         cycleTimes.push({
             alias: userAlias,
             movementType,
-            experiment: "exp1", // Agregado aquí
+            experiment: "exp3", // Agregado aquí
             ArrowLeft: keyDownTimes["ArrowLeft"],
             ArrowDown: keyDownTimes["ArrowDown"],
             ArrowRight: keyDownTimes["ArrowRight"],
@@ -153,7 +161,7 @@
         });
 
         if (currentCycle === 3) {
-            postToSheetAPI()
+            postToSheetAPI();
         }
     }
 
@@ -180,30 +188,11 @@
         }
     }
 
-    function exportToCSV() {
-        const headers =
-            "Alias,Tipo de Movimiento,Izquierda,Abajo,Derecha,Total,Fecha_hora\n";
-        const csvContent = `data:text/csv;charset=utf-8,${headers}${cycleTimes
-            .map(
-                ({
-                    alias,
-                    movementType,
-                    ArrowLeft,
-                    ArrowDown,
-                    ArrowRight,
-                    total,
-                    dateTime,
-                }) =>
-                    `${alias},${movementType},${ArrowLeft},${ArrowDown},${ArrowRight},${total},${dateTime}`,
-            )
-            .join("\n")}`;
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "key_press_times.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    function resetExperiment() {
+        currentCycle = 1;
+        showReturnButton = false;
+        displayImage = true;
+        startCycle();
     }
 
     function goToMainMenu() {
@@ -214,20 +203,32 @@
 <!-- Resto del HTML y estilos -->
 
 <div class="center">
-    {#if displayImage}
+    {#if countdown > 0}
+        <div class="countdown">{countdown}</div>
+    {:else if displayImage}
         <!-- svelte-ignore a11y-missing-attribute -->
         <img
             src="/images/exp3_adapt.png"
             class="image"
             style="transform: rotate({$rotation}deg);"
         />
+    {:else if showReturnButton}
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <img src="/images/listo.png" />
+
+        <h1>
+            ¡Felicidades! Has terminado de realizar el experimento 3 y los datos
+            de tus respuestas han sido guardados. Muchas gracias por tu
+            cooperación. Te invitamos a que pruebes los otros dos experimentos.
+        </h1>
+
+        <div class="button-container">
+            <button on:click={goToMainMenu}>Volver al menú principal</button>
+            <button on:click={resetExperiment}>Jugar de nuevo</button>
+        </div>
     {:else}
         <!-- svelte-ignore a11y-missing-attribute -->
         <img src="/images/exp3_test.png" class="image-static" />
-    {/if}
-
-    {#if showReturnButton}
-        <button on:click={goToMainMenu}>Volver al menú principal</button>
     {/if}
 </div>
 
@@ -251,5 +252,31 @@
         width: 636px; /* Adjust size as needed */
         height: 636px; /* Adjust size as needed */
         object-fit: cover; /* Maintain aspect ratio of the image */
+    }
+
+    .center {
+        display: flex;
+        flex-direction: column; /* Organizes children vertically */
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+    }
+
+    .button-container {
+        display: flex; /* Flex container for the buttons */
+        justify-content: space-between; /* Space between the buttons */
+        padding-top: 20px; /* Padding above the buttons */
+    }
+
+    .button-container button {
+        margin: 0 10px; /* Spacing between buttons */
+    }
+    .countdown {
+        font-size: 5em; /* Large font size for countdown */
+        color: white; /* Color of the countdown numbers */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>

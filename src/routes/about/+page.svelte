@@ -76,34 +76,37 @@
   </div>
 
   <h1>
-    Primero te mostraremos un estimulo de adaptación por 30 segundos, donde tu
-    vista se acostumbrará al movimiento, luego te mostraremos un estimulo de
-    prueba estático.
+    Primero te mostraremos un estimulo de adaptación por 30 segundos, donde
+		tu vista se acostumbrará al movimiento, luego te mostraremos un estimulo
+		de prueba estático por otros 30 segundos, este proceso se repetira tres
+		veces, una por cada tipo de movimiento, sentido horario, antihorario y
+		estático, el orden elegido al azar. Te invitamos a que apretes F11 para
+		ponerte en pantalla completa y que acerces tu rostro al monitor.
   </h1>
 
   <div class="container">
-		<div class="column">
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<iframe
-				src="https://giphy.com/embed/sBYDySrctteHM3HFQe"
-				width="720"
-				height="405"
-				frameBorder="0"
-				class="giphy-embed"
-				allowFullScreen
-			></iframe>
-		</div>
-		<div class="column">
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<img
-				src="/images/example.png"
-				class="static-image"
-				width="550"
-				height="405"
-				alt="How to play"
-			/>
-		</div>
-	</div>
+    <div class="column">
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <iframe
+        src="https://giphy.com/embed/sBYDySrctteHM3HFQe"
+        width="720"
+        height="405"
+        frameBorder="0"
+        class="giphy-embed"
+        allowFullScreen
+      ></iframe>
+    </div>
+    <div class="column">
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <img
+        src="/images/example.png"
+        class="static-image"
+        width="550"
+        height="405"
+        alt="How to play"
+      />
+    </div>
+  </div>
 
   <h1>
     Durante el periodo de prueba estático deberás registrar la desaparición que

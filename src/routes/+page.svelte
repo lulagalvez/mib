@@ -49,8 +49,7 @@
 
 	<div>
 		<h3>
-			Creado por <a href="https://github.com/lulagalvez" target="_blank">Lula</a> y <a href="https://github.com/LizandroR" target="_blank">Lizandro</a>
-		</h3>
+			Creado por estudiantes de la Universidad de Concepción
 		
 	</div>
 </div>

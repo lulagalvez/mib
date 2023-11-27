@@ -63,6 +63,32 @@ p {
     margin-bottom: 20px;
 }
 
+.footer {
+    color: #fff;
+    text-align: right;
+    padding: 0px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.centered-text {
+    text-align: center;
+    margin-top: 20px; /* Adjust margin top as needed */
+}
+
+.footer-logo {
+    width: 50px; /* Adjust the width of the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-top: 10px; /* Adjust margin top as needed */
+}
+
+.footer-text {
+    font-size: 14px;  /* Adjust margin between text and logo */
+}
 
 
 

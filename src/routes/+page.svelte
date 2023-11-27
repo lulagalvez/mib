@@ -47,9 +47,15 @@
 		<a href="/exp3" class="circle circle3"></a>
 	</div>
 
-	<div>
+	<div class="centered-text">
 		<h3>
-			Creado por estudiantes de la Universidad de Concepción. Haz click en uno de los circulos para realizar un experimento.
-		
+			Cada circulo corresponde a un experimento distinto. ¡Haz click en alguno para comenzar!
 	</div>
+
+	<footer class="footer">
+		<p class="footer-text">Creado por estudiantes de<br>la Universidad de Concepción</p>
+		<img src="/images/logo.png" alt="Logo" class="footer-logo">
+	</footer>
+
+	
 </div>

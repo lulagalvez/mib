@@ -140,7 +140,7 @@
 	<h1>
 		Primero te mostraremos un estimulo de adaptación por 30 segundos, donde
 		tu vista se acostumbrará al movimiento, luego te mostraremos un estimulo
-		de prueba estático por otros 30 segundos, este proceso se repetira tres
+		de prueba estático por otros 30 segundos, este proceso se repetirá tres
 		veces, una por cada tipo de movimiento, sentido horario, antihorario y
 		estático, el orden elegido al azar. Te invitamos a que apretes F11 para
 		ponerte en pantalla completa y que acerces tu rostro al monitor.

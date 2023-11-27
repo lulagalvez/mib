@@ -49,7 +49,7 @@
 
 	<div>
 		<h3>
-			Creado por estudiantes de la Universidad de Concepción
+			Creado por estudiantes de la Universidad de Concepción. Haz click en uno de los circulos para realizar un experimento.
 		
 	</div>
 </div>

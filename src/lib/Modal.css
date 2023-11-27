@@ -7,7 +7,7 @@ dialog {
   padding: 0;
   color: white;
   /* Setting text color to white */
-  background-color: black;
+  background-color: #101010;
   /* Setting background color to black */
 }
 
@@ -121,7 +121,7 @@ button {
   /* Increase the font size */
   color: white;
   /* Text color */
-  background-color: black;
+  background-color: #101010;
   /* Background color */
   border: none;
   /* No border */
@@ -144,7 +144,7 @@ button {
 button:hover {
   background-color: white;
   /* Darker background color on hover */
-  color: black;
+  color: #101010;
 }
 
 .form-container {

@@ -289,7 +289,7 @@
         /* Increase the font size */
         color: white;
         /* Text color */
-        background-color: black;
+        background-color: #101010;
         /* Background color */
         border: none;
         /* No border */
@@ -312,6 +312,6 @@
     button:hover {
         background-color: white;
         /* Darker background color on hover */
-        color: black;
+        color: #101010;
     }
 </style>

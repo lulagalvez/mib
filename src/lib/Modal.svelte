@@ -143,7 +143,7 @@
 		de prueba estático por otros 30 segundos, este proceso se repetirá tres
 		veces, una por cada tipo de movimiento, sentido horario, antihorario y
 		estático, el orden elegido al azar. Te invitamos a que apretes F11 para
-		ponerte en pantalla completa y que acerces tu rostro al monitor.
+		ponerte en pantalla completa y que acerques tu rostro al monitor.
 	</h1>
 
 	<div class="container">

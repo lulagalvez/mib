@@ -63,8 +63,8 @@
 	<!-- svelte-ignore a11y-missing-content -->
 	<h1>
 		Somos estudiantes de la Universidad de Concepción y hemos creado esta
-		plataforma para probar dos fenomenos ópticos, la ceguera inducida por
-		movimiento y el efecto residual de movimiento. Pero, que son éstas
+		plataforma para probar dos fenómenos ópticos, la ceguera inducida por
+		movimiento y el efecto residual de movimiento. ¿Pero, que son éstas
 		ilusiones ópticas?
 	</h1>
 
@@ -97,7 +97,7 @@
 	<div class="container">
 		<div class="column">
 			<h2>
-				La cegueda inducida por movimiento o <a
+				La ceguera inducida por movimiento o <a
 					href="https://en.wikipedia.org/wiki/Motion-induced_blindness"
 					target="_blank"
 					rel="noopener noreferrer">MIB</a

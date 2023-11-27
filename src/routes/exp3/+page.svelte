@@ -237,7 +237,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 90vh; /* Set full viewport height */
+        height: 90vh;
+        overflow-y: scroll;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Firefox */ /* Set full viewport height */
+    }
+    .center::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
     }
 
     .image {

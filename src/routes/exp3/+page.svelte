@@ -279,4 +279,39 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    button {
+        width: 50%;
+        /* Adjust the width as needed */
+        padding: 15px;
+        /* Adds space inside the button */
+        font-size: 1.2em;
+        /* Increase the font size */
+        color: white;
+        /* Text color */
+        background-color: black;
+        /* Background color */
+        border: none;
+        /* No border */
+        border-radius: 5px;
+        /* Rounded corners */
+        cursor: pointer;
+        /* Cursor changes to pointer on hover */
+        margin: 10px 0;
+        /* Adds space around the button */
+        border: 2px solid white;
+        /* White border */
+        border-radius: 5px;
+        /* Rounded corners */
+        cursor: pointer;
+        /* Cursor changes to pointer on hover */
+        margin: 10px 0;
+        /* Adds space around the button */
+    }
+
+    button:hover {
+        background-color: white;
+        /* Darker background color on hover */
+        color: black;
+    }
 </style>

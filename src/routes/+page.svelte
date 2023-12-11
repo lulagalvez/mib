@@ -39,13 +39,17 @@
 	<img src="/images/title.png" class="title-image" alt="Title" />
 
 	<div class="triangle-container">
-		<!-- svelte-ignore a11y-missing-content -->
-		<a href="/exp1" class="circle circle1"></a>
-		<!-- svelte-ignore a11y-missing-content -->
-		<a href="/exp2" class="circle circle2"></a>
-		<!-- svelte-ignore a11y-missing-content -->
-		<a href="/exp3" class="circle circle3"></a>
+		<a href="/exp1">
+			<img src="/images/one.png" alt="Experiment 1" class="circle circle1" />
+		</a>
+		<a href="/exp2">
+			<img src="/images/two.png" alt="Experiment 2" class="circle circle2" />
+		</a>
+		<a href="/exp3">
+			<img src="/images/three.png" alt="Experiment 3" class="circle circle3" />
+		</a>
 	</div>
+	
 
 	<div class="centered-text">
 		<h3>

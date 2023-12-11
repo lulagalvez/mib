@@ -1,39 +1,47 @@
 <script lang="ts">
-    import "../global.css";
-    import { onMount, onDestroy } from "svelte";
-    import { tweened } from "svelte/motion";
-    import { cubicOut } from "svelte/easing";
-    import { browser } from "$app/environment";
-    import { goto } from "$app/navigation";
-
+    import "../global.css";// Importa estilos globales
+    import { onMount, onDestroy } from "svelte";// Importa métodos de ciclo de vida de Svelte
+    import { tweened } from "svelte/motion";// Importa para animaciones
+    import { cubicOut } from "svelte/easing";// Importa para definir la curva de animación
+    import { browser } from "$app/environment";// Importa para detectar el entorno del navegador
+    import { goto } from "$app/navigation";// Importa para la navegación dentro de la aplicación
+    
+    // Animación de rotación con duración de 3000ms
     const rotation = tweened(0, {
         duration: 3000,
     });
 
-    let countdown = 3;
-    const intervalDuration = 30000;
-    let userAlias = ""; // Variable to store the alias
-    let displayImage = true;
-    let currentCycle = 1; // Inicia en el primer ciclo
-    let showReturnButton = false; // Controla la visibilidad del botón de retorno
+    // Variables de estado del experimento
+    let countdown = 3;  // Cuenta regresiva antes de iniciar el experimento
+    const intervalDuration = 30000;// Duración de cada intervalo en el experimento
+    let userAlias = ""; // // Alias del usuario participante en el experimento
+    let displayImage = true;// Controla si la imagen debe mostrarse o no
+    let currentCycle = 1; // Número actual del ciclo dentro del experimento
+    let showReturnButton = false; // Controla la visibilidad del botón de retorno al menú principal
+
+
+    // Estructura de datos para almacenar información de cada ciclo
     interface CycleData {
         alias: string;
         experiment: string;
-        movementType: string; // Nueva propiedad
-        ArrowDown: number;
-        ArrowLeft: number;
-        ArrowRight: number;
-        total: number;
-        dateTime: string;
+        movementType: string; // Tipo de movimiento en el ciclo actual
+        ArrowDown: number;// Tiempo presionando la flecha hacia abajo
+        ArrowLeft: number;// Tiempo presionando la flecha hacia izquierda
+        ArrowRight: number;// Tiempo presionando la flecha hacia derecha
+        total: number;// Tiempo total presionando teclas
+        dateTime: string;// Fecha y hora del registro
     }
-    let cycleTimes: CycleData[] = [];
+    let cycleTimes: CycleData[] = [];// Arreglo para almacenar los datos de cada ciclo
+
+     // Registro de tiempos de teclas presionadas
     let keyDownTimes: { [key: string]: number } = {
         ArrowDown: 0,
         ArrowLeft: 0,
         ArrowRight: 0,
     };
-    let keyPressStart: { [key: string]: number | null } = {};
+    let keyPressStart: { [key: string]: number | null } = {};// Momento en que se presiona una tecla
 
+     // Arreglo de movimientos posibles en el experimento ->  0: sin movimiento, 1: en sentido horario, -1: en sentido antihorario
     const movements = [0, 1, -1];
 
     // Función para mezclar el arreglo
@@ -54,14 +62,14 @@
         // Restablece las variables de tiempo
         keyDownTimes = { ArrowDown: 0, ArrowLeft: 0, ArrowRight: 0 };
         keyPressStart = {};
-        // Intervalo para rotación
+        // intervalo para actualizar la animación de rotación
         const interval = setInterval(() => {
             rotation.update((n) => n + 360 * currentMovement);
         }, 3000);
-
+        // finalizar el intervalo y pasar al siguiente estado
         setTimeout(() => {
-            clearInterval(interval);
-            displayImage = false;
+            clearInterval(interval);// Detiene la animación de rotación
+            displayImage = false;   // Oculta la imagen
 
             // Inicia escucha de eventos de teclado solo si es necesario
             if (browser && currentCycle <= 3) {
@@ -72,19 +80,19 @@
             // Espera 30 segundos más para cambiar de imagen o terminar el ciclo
             setTimeout(() => {
                 if (currentCycle < 3) {
-                    saveAndExportCycleData();
-                    currentCycle++;
-                    displayImage = true;
-                    startCycle();
+                    saveAndExportCycleData(); // Guarda los datos del ciclo actual
+                    currentCycle++; // Incrementa el número de ciclo
+                    displayImage = true; // Muestra la imagen nuevamente
+                    startCycle(); // Inicia el siguiente ciclo
                 } else {
-                    saveAndExportCycleData();
-                    showReturnButton = true;
+                    saveAndExportCycleData(); // Guarda los datos del último ciclo
+                    showReturnButton = true; // Muestra el botón para retornar al menú
                 }
             }, intervalDuration);
         }, intervalDuration);
-
+        // Función de limpieza para el efecto
         return () => {
-            clearInterval(interval);
+            clearInterval(interval);// Limpia el intervalo de rotación
             if (browser) {
                 window.removeEventListener("keydown", handleKeyDown);
                 window.removeEventListener("keyup", handleKeyUp);
@@ -94,49 +102,65 @@
 
     let currentMovement = 0; // Variable para almacenar el tipo de movimiento actual
     onMount(() => {
+        // Crea un intervalo para la cuenta regresiva antes de empezar el experimento
         const countdownInterval = setInterval(() => {
             countdown -= 1;
             if (countdown === 0) {
                 clearInterval(countdownInterval);
             }
         }, 1000);
+        // Obtiene el alias del usuario del almacenamiento local
         userAlias = localStorage.getItem("alias") || "Unknown";
 
         startCycle();
     });
-
+    // Función asíncrona para enviar datos al servicio de Google Sheets a través de una API.
     async function postToSheetAPI() {
         try {
+            // Realiza una solicitud HTTP POST a la URL de la API proporcionada por Sheet.best,
+            // que actúa como intermediario entre la aplicación y Google Sheets.
+
             const response = await fetch(
                 "https://sheet.best/api/sheets/81947b65-2fbd-4577-8ab8-583c4ce45b2f",
                 {
-                    method: "POST",
+                    method: "POST", 
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json", 
                     },
+                    // El cuerpo de la solicitud es una cadena JSON que contiene los datos de cycleTimes.
+                    // Estos datos serán insertados en las filas correspondientes de la hoja de cálculo de Google.
                     body: JSON.stringify(cycleTimes),
                 },
             );
 
             if (!response.ok) {
+                // En caso de una respuesta no exitosa, lanza un error con el estado HTTP.
+                // Esto puede indicar un problema con la conexión a la API o con la hoja de cálculo.
+
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
+            // Si la respuesta es exitosa, convierte la respuesta a formato JSON.
             const result = await response.json();
+             // Registra en la consola el éxito de la operación, mostrando la respuesta del servidor.
             console.log("Data posted successfully:", result);
         } catch (error) {
+            // Captura y registra cualquier error durante la solicitud o en el procesamiento de la respuesta.
+            // Esto incluye errores de red, errores de API, o problemas con la estructura de los datos enviados.
             console.error("Error posting data:", error);
         }
     }
-
+    // guardar y preparar los datos de cada ciclo del experimento para su exportación.
     function saveAndExportCycleData() {
+        // Calcula el tiempo total de presión de teclas, sumando los tiempos de cada tecla.
         const total = parseFloat(
             Object.values(keyDownTimes)
                 .reduce((a, b) => a + b, 0)
                 .toFixed(3),
         );
+        // Obtiene la fecha y hora actual en formato ISO para registrar cuando se completó el ciclo.
         const dateTime = new Date().toISOString();
 
+        // Determina el tipo de movimiento realizado en el ciclo actual.
         let movementType = "";
         switch (currentMovement) {
             case 1:
@@ -148,7 +172,8 @@
             default:
                 movementType = "Sin Girar";
         }
-
+        // Añade los datos del ciclo actual al arreglo 'cycleTimes'.
+        // Esto incluye alias del usuario, tipo de movimiento, datos de teclas presionadas, tiempo total y fecha/hora.
         cycleTimes.push({
             alias: userAlias,
             movementType,
@@ -159,22 +184,25 @@
             total,
             dateTime,
         });
-
+        // Si es el último ciclo, llama a la función para enviar los datos a Google Sheets.
         if (currentCycle === 3) {
             postToSheetAPI();
         }
     }
-
+    // manejar el evento de presión de teclas.
     function handleKeyDown(event: KeyboardEvent) {
+        // Verifica si la imagen no se está mostrando y si la tecla presionada es una de las teclas de interés.
         if (
             !displayImage &&
             ["ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
         ) {
+            // Registra el momento en que se empezó a presionar una tecla,
+            // si es la primera vez que se presiona en el ciclo actual.
             keyPressStart[event.key] =
                 keyPressStart[event.key] || performance.now();
         }
     }
-
+    // manejar el evento de liberación de teclas.
     function handleKeyUp(event: KeyboardEvent) {
         if (!displayImage && keyPressStart[event.key]) {
             // Redondea a 3 decimales y convierte a número
@@ -184,28 +212,34 @@
                     1000
                 ).toFixed(3),
             );
+            // Reinicia el contador de inicio de presión para esa tecla.
             keyPressStart[event.key] = null;
         }
     }
-
+    // Función para reiniciar el experimento y volver a su estado inicial.
     function resetExperiment() {
         currentCycle = 1;
         showReturnButton = false;
         displayImage = true;
         startCycle();
     }
-
+    // Función para navegar al menú principal de la aplicación.
     function goToMainMenu() {
+        // Utiliza la función 'goto' de SvelteKit para cambiar la ruta.
+        // Aquí, '/' representa la ruta del menú principal.
+        // Cambia esto según la estructura de rutas de tu aplicación.
         goto("/"); // Reemplaza '/' con la ruta del menú principal
     }
 </script>
 
 <!-- Resto del HTML y estilos -->
-
+<!-- Componente visual principal que muestra diferentes elementos basados en el estado del experimento -->
 <div class="center">
     {#if countdown > 0}
+    <!-- Muestra una cuenta regresiva antes de comenzar el experimento -->
         <div class="countdown">{countdown}</div>
     {:else if displayImage}
+        <!-- Muestra la imagen con animación de rotación cuando 'displayImage' es verdadero -->
         <!-- svelte-ignore a11y-missing-attribute -->
         <img
             src="/images/exp1_adapt.png"
@@ -213,6 +247,7 @@
             style="transform: rotate({$rotation}deg);"
         />
     {:else if showReturnButton}
+        <!-- Se muestra al finalizar el experimento, con opciones para volver al menú o reiniciar -->
         <!-- svelte-ignore a11y-missing-attribute -->
         <img src="/images/listo.png" />
 
@@ -227,6 +262,7 @@
             <button on:click={resetExperiment}>Jugar de nuevo</button>
         </div>
     {:else}
+        <!-- Muestra una imagen estática cuando no hay cuenta regresiva o animación -->
         <!-- svelte-ignore a11y-missing-attribute -->
         <img src="/images/exp1_test.png" class="image-static" />
     {/if}
@@ -245,7 +281,8 @@
     .center::-webkit-scrollbar {
         display: none; /* Safari and Chrome */
     }
-
+   
+     /* Estilos para la imagen con animación de rotación */
     .image {
         width: 636px; /* Adjust size as needed */
         height: 636px; /* Adjust size as needed */
@@ -254,6 +291,7 @@
         transform: rotate(90deg);
     }
 
+    /* Estilos para la imagen estática */
     .image-static {
         width: 636px; /* Adjust size as needed */
         height: 636px; /* Adjust size as needed */
@@ -277,6 +315,7 @@
     .button-container button {
         margin: 0 10px; /* Spacing between buttons */
     }
+    /* Estilos para la cuenta regresiva */
     .countdown {
         font-size: 5em; /* Large font size for countdown */
         color: white; /* Color of the countdown numbers */
